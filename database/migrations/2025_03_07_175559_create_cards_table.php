@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('id_set')->constrained('categories');
             $table->string('name');
             $table->string('image');
-            $table->json('description');
+            $table->string('description');
             $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
             $table->timestamps();
         });
