@@ -11,7 +11,7 @@ class ProductoController extends Controller
     {
         if (Producto::all()->isEmpty()) {
             return response()->json([
-                'message' => 'No hay usuarios registrados'
+                'message' => 'No hay productos registrados'
             ], 404);
         }elseif ($request->id) {
             $product = Producto::findOrFail($request->id);
@@ -89,7 +89,7 @@ class ProductoController extends Controller
         if ($product) {
             if ($product->delete()) {
                 return response()->json([
-                    'Message' => 'Procuto eliminado'
+                    'Message' => 'Producto eliminado'
                 ], 200);
             } else {
                 return response()->json([

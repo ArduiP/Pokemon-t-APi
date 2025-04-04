@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->date('release_date');
             $table->string('total_cards');
-            $table->string('image');
+            $table->string('logo');
+            $table->string('symbol');
             $table->integer('legal')->default(1); //1 Legal, 0 No legal
             $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
             $table->timestamps();

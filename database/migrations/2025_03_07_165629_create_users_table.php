@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('password'); // Hashed password
+            $table->string('old_password')->nullable(); // Old password for verification
             $table->integer('role')->default(0); // 0 - User, 1 - Admin
             $table->integer("deleted")->default(0); //1 Borrado, 0 Activo
             $table->date('birth_date');
+            $table->integer('vendor')->default(0); // 0 - No es vendedor, 1 - Es vendedor
             $table->integer('gender');
             $table->timestamps();
         });

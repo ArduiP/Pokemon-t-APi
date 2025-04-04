@@ -12,7 +12,7 @@ class categoriesController extends Controller
     {
         if (categories::all()->isEmpty()) {
             return response()->json([
-                'message' => 'No hay usuarios registrados'
+                'message' => 'No hay categorías registradas'
             ], 404);
         }elseif ($request->id) {
             $card = categories::findOrFail($request->id);
@@ -40,9 +40,14 @@ class categoriesController extends Controller
             }
             if ($request->has('total_cards')) {
                 $card->total_cards = $request->total_cards;
-            }if ($request->has('image')){
-                $card->image = $request->image;
-            }if ($request->has('deleted')){
+            }if ($request->has('logo')){
+                $card->logo = $request->logo;
+            }if($request->has('symbol')){
+                $card->symbol = $request->symbol;
+            }if($request->has('legal')){
+                $card->legal = $request->legal;
+            }
+            if ($request->has('deleted')){
                 $card->deleted = $request->deleted;
             }
         }
@@ -50,7 +55,8 @@ class categoriesController extends Controller
 
         return response()->json([
             'name' => $card->name,
-            'image' => $card->image,
+            'symbol' => $card->symbol,
+            'logo' => $card->logo,
             'total_cards' => $card->total_cards,
             'id_set' => $card->id_set,
             'release_date' => $card->release_date,
@@ -66,8 +72,9 @@ class categoriesController extends Controller
             $card->name = $request->name;
             $card->id_set = $request->id_set;
             $card->total_cards = $request->total_cards;
-            $card->image = $request->image;
-            $card->release_date = Carbon::createFromFormat('d/m/Y', $request->release_date)->format('Y-m-d');
+            $card->symbol = $request->symbol;
+            $card->logo = $request->logo;
+            $card->release_date = Carbon::createFromFormat('d/m/Y', $request->release_date)->format('d-m-Y');
 
 
             if ($card->save()) {
@@ -77,16 +84,16 @@ class categoriesController extends Controller
                     'total_cards' => $card->total_cards,
                     'id_set' => $card->id_set,
                     'release_date' => $card->release_date,
-                    'message' => 'Carta actualizada'
+                    'message' => 'Categorías actualizada'
                 ], 200);
             } else {
                 return response()->json([
-                    'message' => 'Error al actualizar la carta'
+                    'message' => 'Error al actualizar la categoria'
                 ], 500);
             }
         } else {
             return response()->json([
-                'message' => 'Carta no encontrada'
+                'message' => 'Categoria no encontrada'
             ], 404);
         }
     }
@@ -99,16 +106,16 @@ class categoriesController extends Controller
         if ($card) {
             if ($card->delete()) {
                 return response()->json([
-                    'Message' => 'Carta eliminada'
+                    'Message' => 'Categoria eliminada'
                 ], 200);
             } else {
                 return response()->json([
-                    'message' => 'Error al actualizar la carta'
+                    'message' => 'Error al actualizar la categoria'
                 ], 500);
             }
         } else {
             return response()->json([
-                'message' => 'Carta no encontrada'
+                'message' => 'Categoria no encontrada'
             ], 404);
         }
     }

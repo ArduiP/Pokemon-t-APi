@@ -11,7 +11,7 @@ class cardsController extends Controller
     {
         if (cards::all()->isEmpty()) {
             return response()->json([
-                'message' => 'No hay usuarios registrados'
+                'message' => 'No hay cartas registrados'
             ], 404);
         }elseif ($request->id) {
             $card = cards::findOrFail($request->id);
@@ -22,9 +22,10 @@ class cardsController extends Controller
             return response()->json($card, 200);
         }
     }
-    public function store(Request $request)
+    public function update(Request $request)
     {
-        $card = new cards();
+        $card = cards::find($request->id);
+
 
         if($card){
             if ($request->has('name')) {
@@ -40,8 +41,11 @@ class cardsController extends Controller
                 $card->id_set = $request->id_set;
             }if ($request->has('deleted')){
                 $card->deleted = $request->deleted;
+            }if($request->has('description')){
+                $card->description = $request->description;
             }
         }
+        $card['description'] = json_encode($card['description']);
         $card->save();
 
         return response()->json([
@@ -49,19 +53,21 @@ class cardsController extends Controller
             'image' => $card->image,
             'id_card' => $card->id_card,
             'id_set' => $card->id_set,
+            'description' => $card->description,
             'deleted' => $card->deleted
         ], 200);
     }
 
-    public function update(Request $request)
+    public function store(Request $request)
     {
-        $card = cards::find($request->id);
+        $card = new cards();
 
         if ($card) {
             $card->id_card = $request->id_card;
             $card->id_set = $request->id_set;
             $card->name = $request->name;
             $card->image = $request->image;
+            $card->description = $request->description;
 
             if ($card->save()) {
                 return response()->json([
@@ -69,6 +75,7 @@ class cardsController extends Controller
                     'image' => $card->image,
                     'id_card' => $card->id_card,
                     'id_set' => $card->id_set,
+                    'description' => $card->description,
                     'message' => 'Carta actualizada'
                 ], 200);
             } else {

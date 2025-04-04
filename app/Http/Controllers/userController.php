@@ -15,11 +15,10 @@ class userController extends Controller
             return response()->json([
                 'message' => 'No hay usuarios registrados'
             ], 404);
-        }elseif ($request->id) {
+        } elseif ($request->id) {
             $user = users::findOrFail($request->id);
             return response()->json($user, 200);
-        }
-        elseif (users::all()->isNotEmpty()) {
+        } elseif (users::all()->isNotEmpty()) {
             $user = users::all();
             return response()->json($user, 200);
         }
@@ -36,8 +35,10 @@ class userController extends Controller
         if ($request->password) {
             $user->password = Hash::make($request->password); // Hashear la contraseña si se proporciona
         }
+        $user->role = $request->role;
         $user->birth_date = $request->birth_date;
         $user->gender = $request->gender;
+        $user->vendor = $request->vendor;
 
         $user->save();
 
@@ -72,14 +73,22 @@ class userController extends Controller
                 $user->surname = $request->surname;
             }
             if ($request->has('password')) {
+                $user->old_password = $user->password; // Guardar la contraseña anterior
                 $user->password = Hash::make($request->password); // Hashear la contraseña si se proporciona
+            }
+            if ($request->has('role')) {
+                $user->role = $request->role;
+            }
+            if ($request->has('vendor')) {
+                $user->vendor = $request->vendor;
             }
             if ($request->has('birth_date')) {
                 $user->birth_date = $request->birth_date;
             }
             if ($request->has('gender')) {
                 $user->gender = $request->gender;
-            }if ($request->has('deleted')){
+            }
+            if ($request->has('deleted')) {
                 $user->deleted = $request->deleted;
             }
 

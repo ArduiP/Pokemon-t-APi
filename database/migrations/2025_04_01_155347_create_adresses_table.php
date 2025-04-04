@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cards', function (Blueprint $table) {
+        Schema::create('adresses', function (Blueprint $table) {
             $table->id();
-            $table->string('id_card');
-            $table->foreignId('id_set')->constrained('categories');
-            $table->string('name');
-            $table->string('image');
-            $table->json('description');
-            $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
+            $table->string('adress');
+            $table->string('number');
+            $table->foreignId('id_user')->constrained('users');
+            $table->integer('deleted')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cards');
+        Schema::dropIfExists('adresses');
     }
 };
