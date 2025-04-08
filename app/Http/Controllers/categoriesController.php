@@ -80,7 +80,8 @@ class categoriesController extends Controller
             if ($card->save()) {
                 return response()->json([
                     'name' => $card->name,
-                    'image' => $card->image,
+                    'logo' => $card->logo,
+                    'symbol' => $card->symbol,
                     'total_cards' => $card->total_cards,
                     'id_set' => $card->id_set,
                     'release_date' => $card->release_date,

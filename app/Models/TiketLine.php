@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TiketLine extends Model
 {
     use HasFactory;
-    protected $table = 'tickets_lines';
+    protected $table = 'tiket_lines';
     public $timestamps = false;
 }

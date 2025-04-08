@@ -31,7 +31,6 @@ class TiketController extends Controller
         $user->id_adress = $request->id_adress;
         $user->total = $request->total;
         $user->completed = $request->completed;
-        $user->deleted = $request->deleted;
 
         $user->save();
 
@@ -40,7 +39,6 @@ class TiketController extends Controller
             'id_adress' => $user->id_adress,
             'total' => $user->total,
             'completed' => $user->completed,
-            'deleted' => $user->deleted
         ], 200);
     }
 

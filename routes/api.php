@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdressController;
 use App\Http\Controllers\cardsController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\categoriesController;
+use App\Http\Controllers\TiketController;
+use App\Http\Controllers\TiketLineController;
 use Illuminate\Http\Request; // Ensure this line is present and correctly imported
 use Illuminate\Support\Facades\Route; // Import the Route facade
 
@@ -41,3 +44,18 @@ Route::post('/store/categories', [categoriesController::class, 'store']);
 Route::put('/update/categories', [categoriesController::class, 'update']);
 Route::delete('/delete/categories', [categoriesController::class, 'delete']);
 Route::get('/index/categories', [categoriesController::class, 'index']);
+
+Route::get('/index/adress', [AdressController::class, 'index']);
+Route::post('/store/adress', [AdressController::class, 'store']);
+Route::put('/update/adress', [AdressController::class, 'update']);
+Route::delete('/delete/adress', [AdressController::class, 'delete']);
+
+Route::get('/index/tikets',[TiketController::class, 'index']);
+Route::post('/store/tikets',[TiketController::class, 'store']);
+Route::put('/update/tikets',[TiketController::class, 'update']);
+Route::delete('/delete/tikets',[TiketController::class, 'delete']);
+
+Route::get('/index/tiket_lineas',[TiketLineController::class, 'index']);
+Route::post('/store/tiket_lineas',[TiketLineController::class, 'store']);
+Route::put('/update/tiket_lineas',[TiketLineController::class, 'update']);
+Route::delete('/delete/tiket_lineas',[TiketLineController::class, 'delete']);

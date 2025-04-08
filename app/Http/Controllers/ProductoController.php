@@ -29,6 +29,7 @@ class ProductoController extends Controller
         $product->id_card = $request->id_card;
         $product->quantity = $request->quantity;
         $product->price = $request->price;
+        $product->state = $request->state;
 
         $product->save();
 
@@ -36,7 +37,8 @@ class ProductoController extends Controller
             'quantity' => $product->quantity,
             'price' => $product->price,
             'id_card' => $product->id_card,
-            'id_user' => $product->id_user
+            'id_user' => $product->id_user,
+            'state' => $product->state,
         ], 200);
     }
 

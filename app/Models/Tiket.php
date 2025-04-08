@@ -9,6 +9,6 @@ class Tiket extends Model
 {
     use HasFactory;
 
-    protected $table = 'tickets';
+    protected $table = 'tikets';
     public $timestamps = false;
 }

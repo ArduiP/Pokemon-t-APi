@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TiketLine;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 
 class TiketLineController extends Controller
@@ -26,10 +27,23 @@ class TiketLineController extends Controller
     public function store(Request $request)
     {
         $user = new TiketLine();
+        $object = new Producto();
+        $object = $object->find($request->id_producto);
         $user->id_tiket = $request->id_tiket;
         $user->id_producto = $request->id_producto;
         $user->quantity = $request->quantity;
-        $user->price = $request->price;
+        $user->price = $request->quantity * $object->price;
+        if($object->quantity < $request->quantity){
+            return response()->json([
+                'message' => 'No hay suficiente stock'
+            ], 404);
+        } else {
+            $object->quantity -=  $request->quantity;
+        }
+        $product = new ProductoController();
+        $requesty = ["id" => $request->id_producto, "quantity" => $object->quantity];
+        $requestInstance = new Request($requesty);
+        $product->update($requestInstance);
 
         $user->save();
 
@@ -44,7 +58,13 @@ class TiketLineController extends Controller
     public function update(Request $request)
     {
         $user = TiketLine::findOrFail($request->id);
-        $total = $request->quantity * $request->price;
+        $object = new Producto();
+        $object = $object->find($user->id_producto);
+        $product = new ProductoController();
+        $requesty = ["id" => $user->id_producto, "quantity" => ($object->quantity-$request->quantity)];
+        $requestInstance = new Request($requesty);
+        $object = $object->find($request->id_producto);
+        $total = $request->quantity * $object->price;
         if ($user) {
 
 
@@ -55,10 +75,18 @@ class TiketLineController extends Controller
                 $user->id_producto = $request->id_producto;
             }
             if ($request->has('quantity')) {
-                $user->quantity = $request->quantity;
+                if ($object->quantity < $request->quantity) {
+                    return response()->json([
+                        'message' => 'No hay suficiente stock'
+                    ], 404);
+                } else {
+                    $object->quantity -=  $request->quantity;
+                    $user->quantity = $request->quantity;
+                    $product->update($requestInstance);
+                }
             }
             if ($request->has('price')) {
-                $user->price = $request->price;
+                $user->price = $total;
             }
             if ($request->has('deleted')) {
                 $user->deleted = $request->deleted;
@@ -83,6 +111,8 @@ class TiketLineController extends Controller
     {
 
         $user = TiketLine::find($request->id);
+        $object = new Producto();
+        $object = $object->find($user->id_producto);
 
         if ($user) {
             if ($user->delete()) {
