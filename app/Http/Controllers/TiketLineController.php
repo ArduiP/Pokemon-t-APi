@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tiket;
 use App\Models\TiketLine;
 use App\Models\Producto;
 use Illuminate\Http\Request;
@@ -28,7 +29,9 @@ class TiketLineController extends Controller
     {
         $user = new TiketLine();
         $object = new Producto();
+        $tikete = new Tiket();
         $object = $object->find($request->id_producto);
+        $tikete = $tikete->find($request->id_tiket);
         $user->id_tiket = $request->id_tiket;
         $user->id_producto = $request->id_producto;
         $user->quantity = $request->quantity;
@@ -40,10 +43,16 @@ class TiketLineController extends Controller
         } else {
             $object->quantity -=  $request->quantity;
         }
+        //Actualizar producto
         $product = new ProductoController();
+        $tiketController = new TiketController();
         $requesty = ["id" => $request->id_producto, "quantity" => $object->quantity];
         $requestInstance = new Request($requesty);
         $product->update($requestInstance);
+        //Actualziar Tiket
+        $requesty = ["id" => $request->id_tiket, "total" => ($tikete->total + $user->price)];
+        $requestInstance = new Request($requesty);
+        $tiketController->update($requestInstance);
 
         $user->save();
 
@@ -61,7 +70,7 @@ class TiketLineController extends Controller
         $object = new Producto();
         $object = $object->find($user->id_producto);
         $product = new ProductoController();
-        $requesty = ["id" => $user->id_producto, "quantity" => ($object->quantity-$request->quantity)];
+        $requesty = ["id" => $user->id_producto, "quantity" => ($object->quantity-($request->quantity-$user->quantity))];
         $requestInstance = new Request($requesty);
         $object = $object->find($request->id_producto);
         $total = $request->quantity * $object->price;
@@ -83,10 +92,8 @@ class TiketLineController extends Controller
                     $object->quantity -=  $request->quantity;
                     $user->quantity = $request->quantity;
                     $product->update($requestInstance);
+                    $user->price = $total;//Se ejecuta aquí porque se ha actualizado el producto así se actualiza el costo
                 }
-            }
-            if ($request->has('price')) {
-                $user->price = $total;
             }
             if ($request->has('deleted')) {
                 $user->deleted = $request->deleted;
