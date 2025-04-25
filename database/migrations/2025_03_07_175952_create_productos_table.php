@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_user')->constrained('users');
             $table->foreignId('id_card')->constrained('cards');
             $table->integer('quantity');
-            $table->integer('price');
+            $table->float('price');
             $table->integer('state');
             $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
             $table->timestamps();

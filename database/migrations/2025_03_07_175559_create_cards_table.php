@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('id_card');
             $table->foreignId('id_set')->constrained('categories');
             $table->string('name');
-            $table->string('image');
-            $table->string('description');
+            $table->string('image_small')->nullable();
+            $table->string('image_large')->nullable();
+            $table->longText('description');
             $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
             $table->timestamps();
         });

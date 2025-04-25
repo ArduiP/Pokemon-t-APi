@@ -6,6 +6,7 @@ use App\Models\users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 class userController extends Controller
 {
@@ -83,7 +84,7 @@ class userController extends Controller
                 $user->vendor = $request->vendor;
             }
             if ($request->has('birth_date')) {
-                $user->birth_date = $request->birth_date;
+                $user->birth_date = Carbon::createFromFormat('d/m/Y', $request->birth_date)->format('Y-m-d');
             }
             if ($request->has('gender')) {
                 $user->gender = $request->gender;
@@ -99,6 +100,7 @@ class userController extends Controller
                     'name' => $user->name,
                     'surname' => $user->surname,
                     'password' => $user->password,
+                    'old_password' => $user->old_password,
                     'birth_date' => $user->birth_date,
                     'gender' => $user->gender,
                     'deleted' => $user->deleted,
