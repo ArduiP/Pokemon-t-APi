@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained('users');
-            $table->foreignId('id_card')->constrained('cards');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_card')->constrained('cards')->onDelete('cascade');
             $table->integer('quantity');
             $table->float('price');
             $table->integer('state');

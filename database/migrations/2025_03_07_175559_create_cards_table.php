@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->string('id_card');
-            $table->foreignId('id_set')->constrained('categories');
+            $table->foreignId('id_set')->constrained('categories')->onDelete('cascade');
             $table->string('name');
             $table->string('image_small')->nullable();
             $table->string('image_large')->nullable();

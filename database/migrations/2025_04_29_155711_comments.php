@@ -9,14 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    /**
+     * Reverse the migrations.
+     */
     public function up(): void
     {
-        Schema::create('adresses', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->string('adress');
-            $table->string('number');
+            $table->foreignId('id_producto')->constrained('cards')->onDelete('cascade');
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->integer('deleted')->default(0);
+            $table->text('comment');
+            $table->integer('rating')->default(0);
             $table->timestamps();
         });
     }
@@ -24,8 +28,9 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::dropIfExists('adresses');
-    }
+
+     public function down(): void
+     {
+        Schema::dropIfExists('comments');
+     }
 };
