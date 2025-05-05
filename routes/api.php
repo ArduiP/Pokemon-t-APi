@@ -29,6 +29,7 @@ Route::post('/store/user', [userController::class, 'store']);
 Route::put('/update/user', [userController::class, 'update']);
 Route::delete('/delete/user', [userController::class, 'delete']);
 Route::get('/index/user', [userController::class, 'index']);
+Route::post('/login/user', [userController::class,'login']);
 
 Route::post('/store/card', [cardsController::class, 'store']);
 Route::put('/update/card', [cardsController::class, 'update']);

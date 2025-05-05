@@ -13,7 +13,7 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        $password = 1234;
+        $password = 12345678;
         DB::table('users')->insert([
             [
                 'username' => 'Admin',

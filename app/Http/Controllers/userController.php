@@ -24,7 +24,22 @@ class userController extends Controller
             return response()->json($user, 200);
         }
     }
+    public function login(Request $request)
+    {
+        $user = users::where('email', $request->email)->first();
 
+        if ($user && Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Usuario autenticado',
+                'user' => $user
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Usuario o contraseña incorrectos',
+                'datos'=> $request->all()
+            ], 401);
+        }
+    }
 
     public function store(Request $request)
     {
