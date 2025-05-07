@@ -7,6 +7,7 @@ use App\Http\Controllers\userController;
 use App\Http\Controllers\categoriesController;
 use App\Http\Controllers\TiketController;
 use App\Http\Controllers\TiketLineController;
+use App\Http\Controllers\PagoController;
 use Illuminate\Http\Request; // Ensure this line is present and correctly imported
 use Illuminate\Support\Facades\Route; // Import the Route facade
 
@@ -60,3 +61,8 @@ Route::get('/index/tiket_lineas',[TiketLineController::class, 'index']);
 Route::post('/store/tiket_lineas',[TiketLineController::class, 'store']);
 Route::put('/update/tiket_lineas',[TiketLineController::class, 'update']);
 Route::delete('/delete/tiket_lineas',[TiketLineController::class, 'delete']);
+
+Route::post('/store/pago', [PagoController::class, 'store']);
+Route::put('/update/pago', [PagoController::class, 'update']);
+Route::delete('/delete/pago', [PagoController::class, 'delete']);
+Route::get('/index/pago', [PagoController::class, 'index']);

@@ -74,7 +74,7 @@ class categoriesController extends Controller
             $card->total_cards = $request->total_cards;
             $card->symbol = $request->symbol;
             $card->logo = $request->logo;
-            $card->release_date = Carbon::createFromFormat('d/m/Y', $request->release_date)->format('d-m-Y');
+            $card->release_date = Carbon::createFromFormat('d/m/Y', $request->release_date)->format('Y-m-d');
 
 
             if ($card->save()) {
