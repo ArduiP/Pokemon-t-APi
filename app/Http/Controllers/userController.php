@@ -30,8 +30,20 @@ class userController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Usuario autenticado',
-                'user' => $user
+                'id' => $user->id,
+                'username' => $user->username,
+                'email' => $user->email,
+                'name' => $user->name,
+                'surname' => $user->surname,
+                'password'=> $user->password,
+                'old_password'=> $user->old_password,
+                'role' => $user->role,
+                'birth_date' => $user->birth_date,
+                'vendor' => $user->vendor,
+                'gender' => $user->gender
+
+
+
             ], 200);
         } else {
             return response()->json([
