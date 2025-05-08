@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Response;
 class AdressController extends Controller
 {
 
+
+
     public function index(Request $request)
     {
         if (adress::all()->isEmpty()) {
@@ -19,8 +21,10 @@ class AdressController extends Controller
         }elseif ($request->id) {
             $card = adress::findOrFail($request->id);
             return response()->json($card, 200);
-        }
-        elseif (adress::all()->isNotEmpty()) {
+        } elseif ($request->id_user) {
+            $card = adress::where('id_user', $request->id_user)->get();
+            return response()->json($card, 200);
+        } elseif (adress::all()->isNotEmpty()) {
             $card = adress::all();
             return response()->json($card, 200);
         }

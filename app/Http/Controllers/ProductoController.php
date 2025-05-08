@@ -13,7 +13,14 @@ class ProductoController extends Controller
             return response()->json([
                 'message' => 'No hay productos registrados'
             ], 404);
-        }elseif ($request->id) {
+        } elseif ($request->id_user) {
+            $product = Producto::where('id_user', $request->id_user)->get();
+            return response()->json($product, 200);
+        } elseif ($request->id_card) {
+            $product = Producto::where('id_card', $request->id_card)->get();
+            return response()->json($product, 200);
+        }
+        elseif ($request->id) {
             $product = Producto::findOrFail($request->id);
             return response()->json($product, 200);
         }

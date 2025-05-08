@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('number');
             $table->date('expiration_date');
             $table->string('cvv');
+            $table->integer('deleted')->default(0);
             $table->timestamps();
         });
     }
