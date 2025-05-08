@@ -36,10 +36,6 @@ Route::post('/store/card', [cardsController::class, 'store']);
 Route::put('/update/card', [cardsController::class, 'update']);
 Route::delete('/delete/card', [cardsController::class, 'delete']);
 Route::get('/index/card', [cardsController::class, 'index']);
-<<<<<<< HEAD
-Route::get('/index/card/{id}', [cardsController::class, 'showFromSet']);
-=======
->>>>>>> 3db0677a8c2a0c57c43c2e6a8d6bf92512d28174
 
 Route::post('/store/products', [ProductoController::class, 'store']);
 Route::put('/update/products', [ProductoController::class, 'update']);
