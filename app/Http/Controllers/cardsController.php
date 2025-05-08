@@ -16,6 +16,12 @@ class cardsController extends Controller
         }elseif ($request->id) {
             $card = cards::findOrFail($request->id);
             return response()->json($card, 200);
+        } elseif   ($request->id_set) {
+            $card = cards::where('id_set', $request->id_set)->get();
+            return response()->json($card, 200);
+        } elseif ($request->id_card) {
+            $card = cards::where('id_card', $request->id_card)->get();
+            return response()->json($card, 200);
         }
         elseif (cards::all()->isNotEmpty()) {
             $card = cards::all();
