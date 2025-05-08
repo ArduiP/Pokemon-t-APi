@@ -22,6 +22,21 @@ class cardsController extends Controller
             return response()->json($card, 200);
         }
     }
+
+    public function showFromSet($id)
+    {
+        $cards = Cards::where('id_set', $id)
+            ->get();
+    
+        if ($cards->isEmpty()) {
+            return response()->json([
+                'message' => 'No se encontraron cartas para este set'
+            ], 404);
+        }
+    
+        return response()->json($cards, 200);
+    }
+    
     public function update(Request $request)
     {
         $card = cards::find($request->id);
