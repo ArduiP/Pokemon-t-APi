@@ -15,10 +15,12 @@ class PagoController extends Controller
                 'message' => 'No hay categorías registradas'
             ], 404);
         }elseif ($request->id) {
-            $card = Pago::findOrFail($request->id);
+            $card = Pago::where($request->id);
             return response()->json($card, 200);
-        }
-        elseif (Pago::all()->isNotEmpty()) {
+        } elseif ($request->id_user) {
+            $card = Pago::where('user_id', $request->id_user)->get();
+            return response()->json($card, 200);
+        } elseif (Pago::all()->isNotEmpty()) {
             $card = Pago::all();
             return response()->json($card, 200);
         }
@@ -42,6 +44,8 @@ class PagoController extends Controller
                 $card->number = $request->number;
             }if ($request->has('cvv')){
                 $card->cvv = $request->cvv;
+            } if ($request->has('deleted')) {
+                $card->deleted = $request->deleted;
             }
         }
         $card->save();
@@ -51,7 +55,8 @@ class PagoController extends Controller
             'user_id' => $card->user_id,
             'expiration_date' => $card->expiration_date,
             'number' => $card->number,
-            'cvv' => $card->cvv
+            'cvv' => $card->cvv,
+            'deleted' => $card->deleted,
         ], 200);
     }
 

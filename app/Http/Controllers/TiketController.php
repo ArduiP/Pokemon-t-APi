@@ -17,7 +17,10 @@ class TiketController extends Controller
         } elseif ($request->id) {
             $user = Tiket::findOrFail($request->id);
             return response()->json($user, 200);
-        } elseif (Tiket::all()->isNotEmpty()) {
+        } elseif ($request->id_user) {
+            $user = Tiket::where('id_user', $request->id_user)->get();
+            return response()->json($user, 200);
+        }elseif (Tiket::all()->isNotEmpty()) {
             $user = Tiket::all();
             return response()->json($user, 200);
         }
