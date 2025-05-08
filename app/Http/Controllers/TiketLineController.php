@@ -92,6 +92,11 @@ class TiketLineController extends Controller
                     $object->quantity -=  $request->quantity;
                     $user->quantity = $request->quantity;
                     $product->update($requestInstance);
+                    if($request->quantity == 0){
+                        $requesty = ["id" => $request->id_producto, "deleted" => 1];
+                        $requestInstance = new Request($requesty);
+                        $product->update($requestInstance);
+                    }
                     $user->price = $total;//Se ejecuta aquí porque se ha actualizado el producto así se actualiza el costo
                 }
             }
