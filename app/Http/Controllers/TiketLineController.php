@@ -30,8 +30,8 @@ class TiketLineController extends Controller
         $user = new TiketLine();
         $object = new Producto();
         $tikete = new Tiket();
-        $object = $object->find($request->id_producto);
-        $tikete = $tikete->find($request->id_tiket);
+        $object = $object->findOrFail($request->id_producto);
+        $tikete = $tikete->findOrFail($request->id_tiket);
         $user->id_tiket = $request->id_tiket;
         $user->id_producto = $request->id_producto;
         $user->quantity = $request->quantity;
@@ -46,10 +46,19 @@ class TiketLineController extends Controller
         //Actualizar producto
         $product = new ProductoController();
         $tiketController = new TiketController();
+
         $requesty = ["id" => $request->id_producto, "quantity" => $object->quantity];
         $requestInstance = new Request($requesty);
         $product->update($requestInstance);
+        $object = $object->fresh();
+        if($object->quantity  == 0){
+            $requesty = ["id" => $request->id_producto, "deleted" => 1];
+            $requestInstance = new Request($requesty);
+            $product->update($requestInstance);
+        }
         //Actualziar Tiket
+
+
         $requesty = ["id" => $request->id_tiket, "total" => ($tikete->total + $user->price)];
         $requestInstance = new Request($requesty);
         $tiketController->update($requestInstance);
@@ -69,6 +78,7 @@ class TiketLineController extends Controller
         $user = TiketLine::findOrFail($request->id);
         $object = new Producto();
         $object = $object->find($user->id_producto);
+        $valor_arb = 0;
         $product = new ProductoController();
         $requesty = ["id" => $user->id_producto, "quantity" => ($object->quantity-($request->quantity-$user->quantity))];
         $requestInstance = new Request($requesty);
@@ -90,9 +100,10 @@ class TiketLineController extends Controller
                     ], 404);
                 } else {
                     $object->quantity -=  $request->quantity;
+                    $valor_arb = $user->quantity;
                     $user->quantity = $request->quantity;
                     $product->update($requestInstance);
-                    if($request->quantity == 0){
+                    if($request->quantity == $valor_arb){
                         $requesty = ["id" => $request->id_producto, "deleted" => 1];
                         $requestInstance = new Request($requesty);
                         $product->update($requestInstance);
@@ -111,6 +122,8 @@ class TiketLineController extends Controller
                     'quantity' => $user->quantity,
                     'price' => $user->price,
                     'deleted' => $user->deleted,
+                    '$request'=>$request->quantity,
+                    'valor_arb'=>$valor_arb,
                     'message' => 'Linea de Tíquet actualizado'
                 ], 200);
             }
