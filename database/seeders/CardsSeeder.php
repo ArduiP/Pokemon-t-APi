@@ -18,7 +18,7 @@ class CardsSeeder extends Seeder
             $allCards = []; // Array para acumular todas las cartas
 
             do {
-                $response = Http::get('https://api.pokemontcg.io/v2/cards', [
+                $response = Http::timeout(600)->get('https://api.pokemontcg.io/v2/cards', [
                     'q' => 'set.id:' . $set->id_set,
                     'page' => $page,
                     'pageSize' => 250

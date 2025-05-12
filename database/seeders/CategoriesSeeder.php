@@ -12,7 +12,8 @@ class CategoriesSeeder extends Seeder
 {
     public function run()
     {
-        $response = Http::get('https://api.pokemontcg.io/v2/sets');
+        $response = Http::timeout(100)->get('https://api.pokemontcg.io/v2/sets');
+
 
         if ($response->successful()) {
             $sets = $response->json()['data'];

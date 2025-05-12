@@ -34,7 +34,7 @@ class AdressController extends Controller
         $card = adress::find($request->id);
 
         if($card){
-            if ($request->has('adress')) {
+            if ($request->has('address')) {
                 $card->adress = $request->adress;
             }
             if ($request->has('number')) {
@@ -50,7 +50,7 @@ class AdressController extends Controller
         $card->save();
 
         return response()->json([
-            'adress' => $card->adress,
+            'address' => $card->adress,
             'number' => $card->number,
             'id_user' => $card->id_user,
             'deleted' => $card->deleted,
@@ -62,13 +62,13 @@ class AdressController extends Controller
         $card = new adress();
 
         if ($card) {
-            $card->adress = $request->adress;
+            $card->address = $request->address;
             $card->number = $request->number;
             $card->id_user = $request->id_user;
 
             if ($card->save()) {
                 return response()->json([
-                    'adress' => $card->adress,
+                    'address' => $card->address,
                     'number' => $card->number,
                     'id_user' => $card->id_user,
                     'message' => 'Dirección actualizada'

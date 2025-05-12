@@ -64,7 +64,7 @@ class userController extends Controller
             $user->password = Hash::make($request->password); // Hashear la contraseña si se proporciona
         }
         $user->role = $request->role;
-        $user->birth_date = $request->birth_date;
+        $user->birth_date = Carbon::createFromFormat('d/m/Y', $request->birth_date)->format('Y-m-d');
         $user->gender = $request->gender;
         $user->vendor = $request->vendor;
 
