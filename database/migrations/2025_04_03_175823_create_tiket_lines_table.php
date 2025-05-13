@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('id_tiket')->constrained('tikets')->onDelete('cascade');
             $table->foreignId('id_producto')->constrained('productos')->onDelete('cascade');
             $table->integer('quantity');
-            $table->integer('price');
+            $table->float('price');
             $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
             $table->timestamps();
         });

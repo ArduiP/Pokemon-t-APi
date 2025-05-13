@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pago;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class PagoController extends Controller
 {
@@ -41,9 +42,9 @@ class PagoController extends Controller
                 $card->expiration_date = Carbon::createFromFormat('d/m/Y', $request->expiration_date)->format('Y-m-d');
             }
             if ($request->has('number')) {
-                $card->number = $request->number;
+                $card->number = Hash::make($request->number);
             }if ($request->has('cvv')){
-                $card->cvv = $request->cvv;
+                $card->cvv = Hash::make($request->cvv);
             } if ($request->has('deleted')) {
                 $card->deleted = $request->deleted;
             }
@@ -67,9 +68,9 @@ class PagoController extends Controller
         if ($card) {
             $card->user_id = $request->user_id;
             $card->name = $request->name;
-            $card->number = $request->number;
+            $card->number = Hash::make($request->number);
             $card->expiration_date = Carbon::createFromFormat('d/m/Y', $request->expiration_date)->format('Y-m-d');
-            $card->cvv = $request->cvv;
+            $card->cvv = Hash::make($request->cvv);
 
 
 

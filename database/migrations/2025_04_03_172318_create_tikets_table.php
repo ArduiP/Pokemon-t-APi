@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->foreignId('id_adress')->constrained('adresses')->onDelete('cascade');
-            $table->integer('total');
+            $table->float('total');
             $table->integer('completed')->default(0); //1 Completado, 0 No completado
             $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
             $table->timestamps();
