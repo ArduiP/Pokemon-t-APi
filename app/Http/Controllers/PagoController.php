@@ -68,7 +68,7 @@ class PagoController extends Controller
         if ($card) {
             $card->user_id = $request->user_id;
             $card->name = $request->name;
-            $card->number = Hash::make($request->number);
+            $card->number =$request->number;
             $card->expiration_date = Carbon::createFromFormat('d/m/Y', $request->expiration_date)->format('Y-m-d');
             $card->cvv = Hash::make($request->cvv);
 
