@@ -27,23 +27,49 @@ class TiketController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        $user = new Tiket();
-        $user->id_user = $request->id_user;
-        $user->id_adress = $request->id_adress;
-        $user->total = $request->total;
-        $user->completed = $request->completed;
+public function store(Request $request)
+{
+    // Verifica que el ticket existe
+    $tikete = Tiket::findOrFail($request->id_tiket);
 
-        $user->save();
-
-        return response()->json([
-            'id_user' => $user->id_user,
-            'id_adress' => $user->id_adress,
-            'total' => $user->total,
-            'completed' => $user->completed,
-        ], 200);
+    // Verifica que el ticket no esté completo
+    if ($tikete->completed === 1) {
+        return response()->json(['message' => 'Este ticket ya está completo'], 400);
     }
+
+    $producto = Producto::findOrFail($request->id_producto);
+
+    // Verifica si hay suficiente stock
+    if ($producto->quantity < $request->quantity) {
+        return response()->json(['message' => 'No hay suficiente stock'], 400);
+    }
+
+    // Crea la línea de ticket
+    $ticketLine = new TiketLine();
+    $ticketLine->id_tiket = $request->id_tiket;
+    $ticketLine->id_producto = $request->id_producto;
+    $ticketLine->quantity = $request->quantity;
+    $ticketLine->price = $producto->price * $request->quantity;
+
+    // Actualiza el stock del producto
+    $producto->quantity -= $request->quantity;
+    $producto->save();
+
+    // Actualiza el total del ticket
+    $tikete->total += $ticketLine->price;
+    $tikete->save();
+
+    // Guarda la línea de ticket
+    $ticketLine->save();
+
+    return response()->json([
+        'id_tiket' => $ticketLine->id_tiket,
+        'id_producto' => $ticketLine->id_producto,
+        'quantity' => $ticketLine->quantity,
+        'price' => $ticketLine->price
+    ], 200);
+}
+
 
     public function update(Request $request)
     {
