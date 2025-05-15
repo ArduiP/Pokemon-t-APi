@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class cardsController extends Controller
 {
+
+    public function getCardsByIds(Request $request)
+{
+    $ids = $request->input('ids'); // espera un array
+
+    $cards = Cards::whereIn('id_card', $ids)->get();
+
+    return response()->json($cards);
+}
+
     public function index(Request $request)
     {
         if (cards::all()->isEmpty()) {

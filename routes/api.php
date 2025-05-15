@@ -33,6 +33,7 @@ Route::get('/index/user', [userController::class, 'index']);
 Route::post('/login/user', [userController::class,'login']);
 
 Route::post('/store/card', [cardsController::class, 'store']);
+Route::post('/getCardsByIds/card', [cardsController::class, 'getCardsByIds']);
 Route::put('/update/card', [cardsController::class, 'update']);
 Route::delete('/delete/card', [cardsController::class, 'delete']);
 Route::get('/index/card', [cardsController::class, 'index']);
