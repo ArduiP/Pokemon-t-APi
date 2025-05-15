@@ -31,18 +31,33 @@ class cardsController extends Controller
 
     public function showFromSet($id)
     {
-        $cards = Cards::where('id_set', $id)
-            ->get();
-    
+        $cards = Cards::where('id_set', $id)->get();
+
         if ($cards->isEmpty()) {
             return response()->json([
                 'message' => 'No se encontraron cartas para este set'
             ], 404);
         }
-    
+
         return response()->json($cards, 200);
     }
-    
+
+    public function indexCardsByUserProduct ($request)
+    {
+        if ($request->isEmpty()) {
+            return response()->json([
+                'message' => 'No se encontraron cartas para este set'
+            ], 404);
+        }
+        $temp = Cards::whereIn('id_card', $request)
+            ->where('deleted', 0)
+            ->get();
+
+
+        return response()->json($temp, 200);
+
+    }
+
     public function update(Request $request)
     {
         $card = cards::find($request->id);

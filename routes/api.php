@@ -36,11 +36,13 @@ Route::post('/store/card', [cardsController::class, 'store']);
 Route::put('/update/card', [cardsController::class, 'update']);
 Route::delete('/delete/card', [cardsController::class, 'delete']);
 Route::get('/index/card', [cardsController::class, 'index']);
+Route::get('/indexCardsByUserProduct/card', [cardsController::class, 'indexCardsByUserProduct']);
 
 Route::post('/store/products', [ProductoController::class, 'store']);
 Route::put('/update/products', [ProductoController::class, 'update']);
 Route::delete('/delete/products', [ProductoController::class, 'delete']);
 Route::get('/index/products', [ProductoController::class, 'index']);
+Route::get('/onlyIdCardIndex/products', [ProductoController::class, 'onlyIdCardIndex']);
 
 Route::post('/store/categories', [categoriesController::class, 'store']);
 Route::put('/update/categories', [categoriesController::class, 'update']);
