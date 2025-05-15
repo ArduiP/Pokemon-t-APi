@@ -26,6 +26,28 @@ class TiketController extends Controller
         }
     }
 
+    public function create(Request $request)
+{
+    $ticket = new Tiket();
+    $ticket->id_user = $request->input('id_user');
+    $ticket->id_adress = $request->input('id_adress'); // si aplica
+    $ticket->total = 0;
+    $ticket->completed = 0;
+    $ticket->deleted = 0;
+
+    if ($ticket->save()) {
+        return response()->json([
+            'message' => 'Ticket creado correctamente',
+            'ticket' => $ticket
+        ], 201);
+    } else {
+        return response()->json([
+            'message' => 'Error al crear el ticket'
+        ], 500);
+    }
+}
+
+
 
 public function store(Request $request)
 {

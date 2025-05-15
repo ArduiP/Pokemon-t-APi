@@ -25,6 +25,42 @@ class TiketLineController extends Controller
     }
 
 
+    public function updateQuantity(Request $request)
+{
+    $ticketLine = TiketLine::where('id_tiket', $request->id_tiket)
+                           ->where('id_producto', $request->id_producto)
+                           ->first();
+
+    if (!$ticketLine) {
+        return response()->json(['message' => 'Línea de ticket no encontrada'], 404);
+    }
+
+    $producto = Producto::findOrFail($request->id_producto);
+    $diferencia = $request->quantity - $ticketLine->quantity;
+
+    // Validar stock
+    if ($producto->quantity < $diferencia) {
+        return response()->json(['message' => 'Stock insuficiente'], 400);
+    }
+
+    // Actualizar stock
+    $producto->quantity -= $diferencia;
+    $producto->save();
+
+    // Actualizar línea de ticket
+    $ticketLine->quantity = $request->quantity;
+    $ticketLine->price = $producto->price * $request->quantity;
+    $ticketLine->save();
+
+    // Actualizar total del ticket
+    $ticket = Tiket::findOrFail($request->id_tiket);
+    $ticket->total = TiketLine::where('id_tiket', $ticket->id)->sum('price');
+    $ticket->save();
+
+    return response()->json(['message' => 'Cantidad actualizada con éxito']);
+}
+
+
     public function store(Request $request)
     {
         $user = new TiketLine();
@@ -155,4 +191,24 @@ class TiketLineController extends Controller
             ], 404);
         }
     }
+
+    public function deleteChenPing(Request $request)
+{
+    $ticketLine = \App\Models\TiketLine::where('id_tiket', $request->id_tiket)
+                                       ->where('id_producto', $request->id_producto)
+                                       ->first();
+
+    if (!$ticketLine) {
+        return response()->json([
+            'message' => 'Línea de ticket no encontrada'
+        ], 404);
+    }
+
+    $ticketLine->delete();
+
+    return response()->json([
+        'message' => 'Línea de ticket eliminada correctamente'
+    ], 200);
+}
+
 }
