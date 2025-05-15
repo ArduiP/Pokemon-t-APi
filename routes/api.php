@@ -56,11 +56,15 @@ Route::get('/index/tikets',[TiketController::class, 'index']);
 Route::post('/store/tikets',[TiketController::class, 'store']);
 Route::put('/update/tikets',[TiketController::class, 'update']);
 Route::delete('/delete/tikets',[TiketController::class, 'delete']);
+Route::post('/tikets/create', [TiketController::class, 'create']);
+Route::post('/update/ticket-quantity', [TiketController::class, 'updateQuantity']);
+
 
 Route::get('/index/tiket_lineas',[TiketLineController::class, 'index']);
 Route::post('/store/tiket_lineas',[TiketLineController::class, 'store']);
 Route::put('/update/tiket_lineas',[TiketLineController::class, 'update']);
 Route::delete('/delete/tiket_lineas',[TiketLineController::class, 'delete']);
+Route::delete('/delete/tiket_lineas_chenping', [TiketLineController::class, 'deleteChenPing']);
 
 Route::post('/store/pago', [PagoController::class, 'store']);
 Route::put('/update/pago', [PagoController::class, 'update']);
