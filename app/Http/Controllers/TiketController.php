@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Tiket;
+use App\Models\TiketLine;
+use App\Models\Producto;
 
 class TiketController extends Controller
 {
