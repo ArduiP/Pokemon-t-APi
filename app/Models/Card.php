@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class cards extends Model
+class Card extends Model
 {
     use HasFactory;
 
@@ -16,6 +16,7 @@ class cards extends Model
             $builder->where('deleted', 0);
         });
     }
+
     protected $table = 'cards';
-    public $timestamps = false;
+    public $timestamps = false; // si no tienes timestamps
 }

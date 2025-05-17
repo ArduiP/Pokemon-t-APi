@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class adress extends Model
+class address extends Model
 {
     use HasFactory;
 
@@ -17,6 +17,6 @@ class adress extends Model
         });
     }
 
-    protected $table = 'adresses';
+    protected $table = 'addresses';
     public $timestamps = false;
 }

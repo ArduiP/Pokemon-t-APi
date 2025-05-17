@@ -29,7 +29,7 @@ class ProductoController extends Controller
             return response()->json($product, 200);
         }
     }
-    public function onlyIdCardIndex(Request $request)
+    public function onlyIdcardIndex(Request $request)
     {
         $id_user = $request->id_user;
 
@@ -37,12 +37,12 @@ class ProductoController extends Controller
             return response()->json(['error' => 'id_user requerido'], 400);
         }
 
-        $idCardConcat = Producto::where('id_user', $id_user)
+        $idcardConcat = Producto::where('id_user', $id_user)
             ->selectRaw('GROUP_CONCAT(id_card) as id_card')
             ->value('id_card'); // devuelve directamente el string
 
         return response()->json([
-            'id_card' => $idCardConcat // Ejemplo: "4,7,9,15"
+            'id_card' => $idcardConcat // Ejemplo: "4,7,9,15"
         ], 200);
     }
 

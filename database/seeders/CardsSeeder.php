@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
-class CardsSeeder extends Seeder
+class cardsSeeder extends Seeder
 {
     public function run()
     {
@@ -15,7 +15,7 @@ class CardsSeeder extends Seeder
 
         foreach ($sets as $set) {
             $page = 1;
-            $allCards = []; // Array para acumular todas las cartas
+            $allcards = []; // Array para acumular todas las cartas
 
             do {
                 $response = Http::timeout(600)->get('https://api.pokemontcg.io/v2/cards', [
@@ -31,7 +31,7 @@ class CardsSeeder extends Seeder
                 $cards = $response->json()['data'];
 
                 foreach ($cards as $card) {
-                    $allCards[] = [
+                    $allcards[] = [
                         'id_card' => $card['id'],
                         'id_set' => $set->id,
                         'name' => $card['name'],
@@ -49,7 +49,7 @@ class CardsSeeder extends Seeder
             } while ($hasMore);
 
             // Inserta todas las cartas del set actual en una sola operación
-            DB::table('cards')->upsert($allCards, ['id_card'], [
+            DB::table('cards')->upsert($allcards, ['id_card'], [
                 'id_set', 'name', 'image_small', 'image_large', 'description', 'deleted', 'updated_at'
             ]);
         }

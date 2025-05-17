@@ -5,12 +5,12 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AdressSeeder extends Seeder
+class AddressSeeder extends Seeder
 {
     public function run(): void
     {
         // Asegúrate de que existan usuarios con esos IDs
-        DB::table('adresses')->insert([
+        DB::table('addresses')->insert([
             [
                 'address' => '123 Main St',
                 'number' => 'A1',

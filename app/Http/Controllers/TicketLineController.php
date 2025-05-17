@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tiket;
-use App\Models\TiketLine;
+use App\Models\Ticket;
+use App\Models\TicketLine;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 
-class TiketLineController extends Controller
+class TicketLineController extends Controller
 {
     public function index(Request $request)
     {
-        if (TiketLine::all()->isEmpty()) {
+        if (TicketLine::all()->isEmpty()) {
             return response()->json([
                 'message' => 'No hay lineas de tíquets registradas'
             ], 404);
         } elseif ($request->id) {
-            $user = TiketLine::findOrFail($request->id);
+            $user = TicketLine::findOrFail($request->id);
             return response()->json($user, 200);
-        } elseif (TiketLine::all()->isNotEmpty()) {
-            $user = TiketLine::all();
+        } elseif (TicketLine::all()->isNotEmpty()) {
+            $user = TicketLine::all();
             return response()->json($user, 200);
         }
     }
@@ -27,7 +27,7 @@ class TiketLineController extends Controller
 
     public function updateQuantity(Request $request)
 {
-    $ticketLine = TiketLine::where('id_tiket', $request->id_tiket)
+    $ticketLine = TicketLine::where('id_Ticket', $request->id_Ticket)
                            ->where('id_producto', $request->id_producto)
                            ->first();
 
@@ -53,8 +53,8 @@ class TiketLineController extends Controller
     $ticketLine->save();
 
     // Actualizar total del ticket
-    $ticket = Tiket::findOrFail($request->id_tiket);
-    $ticket->total = TiketLine::where('id_tiket', $ticket->id)->sum('price');
+    $ticket = Ticket::findOrFail($request->id_Ticket);
+    $ticket->total = TicketLine::where('id_Ticket', $ticket->id)->sum('price');
     $ticket->save();
 
     return response()->json(['message' => 'Cantidad actualizada con éxito']);
@@ -63,12 +63,12 @@ class TiketLineController extends Controller
 
     public function store(Request $request)
     {
-        $user = new TiketLine();
+        $user = new TicketLine();
         $object = new Producto();
-        $tikete = new Tiket();
+        $Tickete = new Ticket();
         $object = $object->findOrFail($request->id_producto);
-        $tikete = $tikete->findOrFail($request->id_tiket);
-        $user->id_tiket = $request->id_tiket;
+        $Tickete = $Tickete->findOrFail($request->id_Ticket);
+        $user->id_Ticket = $request->id_Ticket;
         $user->id_producto = $request->id_producto;
         $user->quantity = $request->quantity;
         $user->price = $request->quantity * $object->price;
@@ -81,7 +81,7 @@ class TiketLineController extends Controller
         }
         //Actualizar producto
         $product = new ProductoController();
-        $tiketController = new TiketController();
+        $TicketController = new TicketController();
 
         $requesty = ["id" => $request->id_producto, "quantity" => $object->quantity];
         $requestInstance = new Request($requesty);
@@ -92,17 +92,17 @@ class TiketLineController extends Controller
             $requestInstance = new Request($requesty);
             $product->update($requestInstance);
         }
-        //Actualziar Tiket
+        //Actualziar Ticket
 
 
-        $requesty = ["id" => $request->id_tiket, "total" => ($tikete->total + $user->price)];
+        $requesty = ["id" => $request->id_Ticket, "total" => ($Tickete->total + $user->price)];
         $requestInstance = new Request($requesty);
-        $tiketController->update($requestInstance);
+        $TicketController->update($requestInstance);
 
         $user->save();
 
         return response()->json([
-            'id_tiket' => $user->id_tiket,
+            'id_Ticket' => $user->id_Ticket,
             'id_producto' => $user->id_producto,
             'quantity' => $user->quantity,
             'price' => $user->price
@@ -111,7 +111,7 @@ class TiketLineController extends Controller
 
     public function update(Request $request)
     {
-        $user = TiketLine::findOrFail($request->id);
+        $user = TicketLine::findOrFail($request->id);
         $object = new Producto();
         $object = $object->find($user->id_producto);
         $valor_arb = 0;
@@ -123,8 +123,8 @@ class TiketLineController extends Controller
         if ($user) {
 
 
-            if ($request->has('id_tiket')) {
-                $user->id_tiket = $request->id_tiket;
+            if ($request->has('id_Ticket')) {
+                $user->id_Ticket = $request->id_Ticket;
             }
             if ($request->has('id_producto')) {
                 $user->id_producto = $request->id_producto;
@@ -153,7 +153,7 @@ class TiketLineController extends Controller
 
             if ($user->save()) {
                 return response()->json([
-                    'id_tiket' => $user->id_tiket,
+                    'id_Ticket' => $user->id_Ticket,
                     'id_producto' => $user->id_producto,
                     'quantity' => $user->quantity,
                     'price' => $user->price,
@@ -171,7 +171,7 @@ class TiketLineController extends Controller
     public function delete(Request $request)
     {
 
-        $user = TiketLine::find($request->id);
+        $user = TicketLine::find($request->id);
         $object = new Producto();
         $object = $object->find($user->id_producto);
 
@@ -194,7 +194,7 @@ class TiketLineController extends Controller
 
     public function deleteChenPing(Request $request)
 {
-    $ticketLine = \App\Models\TiketLine::where('id_tiket', $request->id_tiket)
+    $ticketLine = \App\Models\TicketLine::where('id_Ticket', $request->id_Ticket)
                                        ->where('id_producto', $request->id_producto)
                                        ->first();
 

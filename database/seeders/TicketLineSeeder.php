@@ -5,13 +5,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TiketLineSeeder extends Seeder
+class TicketLineSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('tiket_lines')->insert([
+        DB::table('Ticket_lines')->insert([
             [
-                'id_tiket' => 1,
+                'id_Ticket' => 1,
                 'id_producto' => 1,
                 'quantity' => 2,
                 'price' => 5.00,
@@ -20,7 +20,7 @@ class TiketLineSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tiket' => 1,
+                'id_Ticket' => 1,
                 'id_producto' => 2,
                 'quantity' => 1,
                 'price' => 5.50,
@@ -29,7 +29,7 @@ class TiketLineSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tiket' => 2,
+                'id_Ticket' => 2,
                 'id_producto' => 3,
                 'quantity' => 4,
                 'price' => 10.00,

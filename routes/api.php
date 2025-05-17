@@ -1,12 +1,11 @@
 <?php
-
-use App\Http\Controllers\AdressController;
-use App\Http\Controllers\cardsController;
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\categoriesController;
-use App\Http\Controllers\TiketController;
-use App\Http\Controllers\TiketLineController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TicketLineController;
 use App\Http\Controllers\PagoController;
 use Illuminate\Http\Request; // Ensure this line is present and correctly imported
 use Illuminate\Support\Facades\Route; // Import the Route facade
@@ -32,42 +31,44 @@ Route::delete('/delete/user', [userController::class, 'delete']);
 Route::get('/index/user', [userController::class, 'index']);
 Route::post('/login/user', [userController::class,'login']);
 
-Route::post('/store/card', [cardsController::class, 'store']);
-Route::post('/getCardsByIds/card', [cardsController::class, 'getCardsByIds']);
-Route::put('/update/card', [cardsController::class, 'update']);
-Route::delete('/delete/card', [cardsController::class, 'delete']);
-Route::get('/index/card', [cardsController::class, 'index']);
-Route::get('/indexCardsByUserProduct/card', [cardsController::class, 'indexCardsByUserProduct']);
+Route::post('/store/card', [CardController::class, 'store']);
+Route::post('/getcardsByIds/card', [CardController::class, 'getcardsByIds']);
+Route::put('/update/card', [CardController::class, 'update']);
+Route::delete('/delete/card', [CardController::class, 'delete']);
+Route::get('/index/card', [CardController::class, 'index']);
+Route::get('/indexcardsByUserProduct/card', [CardController::class, 'indexcardsByUserProduct']);
 
 Route::post('/store/products', [ProductoController::class, 'store']);
 Route::put('/update/products', [ProductoController::class, 'update']);
 Route::delete('/delete/products', [ProductoController::class, 'delete']);
 Route::get('/index/products', [ProductoController::class, 'index']);
-Route::get('/onlyIdCardIndex/products', [ProductoController::class, 'onlyIdCardIndex']);
+Route::get('/onlyIdcardIndex/products', [ProductoController::class, 'onlyIdcardIndex']);
 
 Route::post('/store/categories', [categoriesController::class, 'store']);
 Route::put('/update/categories', [categoriesController::class, 'update']);
 Route::delete('/delete/categories', [categoriesController::class, 'delete']);
 Route::get('/index/categories', [categoriesController::class, 'index']);
 
-Route::get('/index/adress', [AdressController::class, 'index']);
-Route::post('/store/adress', [AdressController::class, 'store']);
-Route::put('/update/adress', [AdressController::class, 'update']);
-Route::delete('/delete/adress', [AdressController::class, 'delete']);
 
-Route::get('/index/tikets',[TiketController::class, 'index']);
-Route::post('/store/tikets',[TiketController::class, 'store']);
-Route::put('/update/tikets',[TiketController::class, 'update']);
-Route::delete('/delete/tikets',[TiketController::class, 'delete']);
-Route::post('/tikets/create', [TiketController::class, 'create']);
-Route::post('/update/ticket-quantity', [TiketController::class, 'updateQuantity']);
+Route::get('/index/address', [AddressController::class, 'index']);
+Route::post('/store/address', [AddressController::class, 'store']);
+Route::put('/update/address', [AddressController::class, 'update']);
+Route::delete('/delete/address', [AddressController::class, 'delete']);
 
 
-Route::get('/index/tiket_lineas',[TiketLineController::class, 'index']);
-Route::post('/store/tiket_lineas',[TiketLineController::class, 'store']);
-Route::put('/update/tiket_lineas',[TiketLineController::class, 'update']);
-Route::delete('/delete/tiket_lineas',[TiketLineController::class, 'delete']);
-Route::delete('/delete/tiket_lineas_chenping', [TiketLineController::class, 'deleteChenPing']);
+Route::get('/index/Tickets', [TicketController::class, 'index']);
+Route::post('/store/Tickets', [TicketController::class, 'store']);
+Route::put('/update/tickets', [TicketController::class, 'update']); // <- minúscula como en Angular
+Route::delete('/delete/tickets', [TicketController::class, 'delete']); // <- igual aquí
+Route::post('/Tickets/create', [TicketController::class, 'create']);
+Route::post('/update/Ticket-quantity', [TicketController::class, 'updateQuantity']);
+
+
+Route::get('/index/Ticket_lineas', [TicketLineController::class, 'index']);
+Route::post('/store/Ticket_lineas', [TicketLineController::class, 'store']);
+Route::put('/update/Ticket_lineas', [TicketLineController::class, 'update']);
+Route::delete('/delete/Ticket_lineas', [TicketLineController::class, 'delete']);
+Route::delete('/delete/ticket_lineas_chenping', [TicketLineController::class, 'deleteChenPing']);
 
 Route::post('/store/pago', [PagoController::class, 'store']);
 Route::put('/update/pago', [PagoController::class, 'update']);

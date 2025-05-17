@@ -4,35 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Tiket;
-use App\Models\TiketLine;
+use App\Models\Ticket;
+use App\Models\TicketLine;
 use App\Models\Producto;
 
-class TiketController extends Controller
+class TicketController extends Controller
 {
     public function index(Request $request)
     {
-        if (Tiket::all()->isEmpty()) {
+        if (Ticket::all()->isEmpty()) {
             return response()->json([
                 'message' => 'No hay Tickets registrados'
             ], 404);
         } elseif ($request->id) {
-            $user = Tiket::findOrFail($request->id);
+            $user = Ticket::findOrFail($request->id);
             return response()->json($user, 200);
         } elseif ($request->id_user) {
-            $user = Tiket::where('id_user', $request->id_user)->get();
+            $user = Ticket::where('id_user', $request->id_user)->get();
             return response()->json($user, 200);
-        }elseif (Tiket::all()->isNotEmpty()) {
-            $user = Tiket::all();
+        }elseif (Ticket::all()->isNotEmpty()) {
+            $user = Ticket::all();
             return response()->json($user, 200);
         }
     }
 
     public function create(Request $request)
 {
-    $ticket = new Tiket();
+    $ticket = new Ticket();
     $ticket->id_user = $request->input('id_user');
-    $ticket->id_adress = $request->input('id_adress'); // si aplica
+    $ticket->id_address = $request->input('id_address'); // si aplica
     $ticket->total = 0;
     $ticket->completed = 0;
     $ticket->deleted = 0;
@@ -54,10 +54,10 @@ class TiketController extends Controller
 public function store(Request $request)
 {
     // Verifica que el ticket existe
-    $tikete = Tiket::findOrFail($request->id_tiket);
+    $Tickete = Ticket::findOrFail($request->id_Ticket);
 
     // Verifica que el ticket no esté completo
-    if ($tikete->completed === 1) {
+    if ($Tickete->completed === 1) {
         return response()->json(['message' => 'Este ticket ya está completo'], 400);
     }
 
@@ -69,8 +69,8 @@ public function store(Request $request)
     }
 
     // Crea la línea de ticket
-    $ticketLine = new TiketLine();
-    $ticketLine->id_tiket = $request->id_tiket;
+    $ticketLine = new TicketLine();
+    $ticketLine->id_Ticket = $request->id_Ticket;
     $ticketLine->id_producto = $request->id_producto;
     $ticketLine->quantity = $request->quantity;
     $ticketLine->price = $producto->price * $request->quantity;
@@ -80,14 +80,14 @@ public function store(Request $request)
     $producto->save();
 
     // Actualiza el total del ticket
-    $tikete->total += $ticketLine->price;
-    $tikete->save();
+    $Tickete->total += $ticketLine->price;
+    $Tickete->save();
 
     // Guarda la línea de ticket
     $ticketLine->save();
 
     return response()->json([
-        'id_tiket' => $ticketLine->id_tiket,
+        'id_Ticket' => $ticketLine->id_Ticket,
         'id_producto' => $ticketLine->id_producto,
         'quantity' => $ticketLine->quantity,
         'price' => $ticketLine->price
@@ -97,7 +97,7 @@ public function store(Request $request)
 
     public function update(Request $request)
     {
-        $user = Tiket::findOrFail($request->id);
+        $user = Ticket::findOrFail($request->id);
 
         if ($user) {
 
@@ -105,8 +105,8 @@ public function store(Request $request)
             if ($request->has('id_user')) {
                 $user->id_user = $request->id_user;
             }
-            if ($request->has('id_adress')) {
-                $user->id_adress = $request->id_adress;
+            if ($request->has('id_address')) {
+                $user->id_address = $request->id_address;
             }
             if ($request->has('total')) {
                 $user->total = $request->total;
@@ -121,7 +121,7 @@ public function store(Request $request)
             if ($user->save()) {
                 return response()->json([
                     'id_user' => $user->id_user,
-                    'id_adress' => $user->id_adress,
+                    'id_address' => $user->id_address,
                     'total' => $user->total,
                     'completed' => $user->completed,
                     'deleted' => $user->deleted,
@@ -136,7 +136,7 @@ public function store(Request $request)
     public function delete(Request $request)
     {
 
-        $user = Tiket::find($request->id);
+        $user = Ticket::find($request->id);
 
         if ($user) {
             if ($user->delete()) {

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-class Tiket extends Model
+class TicketLine extends Model
 {
     use HasFactory;
     protected static function booted()
@@ -14,6 +14,6 @@ class Tiket extends Model
             $builder->where('deleted', 0);
         });
     }
-    protected $table = 'tikets';
+    protected $table = 'Ticket_lines';
     public $timestamps = false;
 }

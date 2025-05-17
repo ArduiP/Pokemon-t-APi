@@ -12,9 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tiket_lines', function (Blueprint $table) {
+        Schema::create('Ticket_lines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_tiket')->constrained('tikets')->onDelete('cascade');
+            $table->foreignId('id_Ticket')->constrained('Tickets')->onDelete('cascade');
             $table->foreignId('id_producto')->constrained('productos')->onDelete('cascade');
             $table->integer('quantity');
             $table->float('price');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tiket_lines');
+        Schema::dropIfExists('Ticket_lines');
     }
 };

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tikets', function (Blueprint $table) {
+        Schema::create('Tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->foreignId('id_adress')->constrained('adresses')->onDelete('cascade');
+            $table->foreignId('id_address')->constrained('addresses')->onDelete('cascade');
             $table->float('total');
             $table->integer('completed')->default(0); //1 Completado, 0 No completado
             $table->integer('deleted')->default(0); //1 Borrado, 0 Activo
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tikets');
+        Schema::dropIfExists('Tickets');
     }
 };
