@@ -58,15 +58,26 @@ class userController extends Controller
         $user = new users();
         $user->username = $request->username;
         $user->email = $request->email;
-        $user->name = $request->name;
-        $user->surname = $request->surname;
+        if ($request->username){
+            $user->name = $request->username;
+        }
+        if ($request->username){
+            $user->surname = $request->username;
+        }
         if ($request->password) {
             $user->password = Hash::make($request->password); // Hashear la contraseña si se proporciona
         }
-        $user->role = $request->role;
-        $user->birth_date = Carbon::createFromFormat('d/m/Y', $request->birth_date)->format('Y-m-d');
+        if ($request->role){
+            $user->role = $request->role;
+        }
+        if ($request->birth_date) {
+            $user->birth_date = Carbon::createFromFormat('d/m/Y', $request->birth_date)->format('Y-m-d');
+        }if($request->gender){
         $user->gender = $request->gender;
-        $user->vendor = $request->vendor;
+        }
+        if ($request->vendor) {
+            $user->vendor = $request->vendor;
+        }
 
         $user->save();
 
