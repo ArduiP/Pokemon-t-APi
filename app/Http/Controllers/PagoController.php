@@ -6,26 +6,55 @@ use App\Models\Pago;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 class PagoController extends Controller
 {
+
     public function index(Request $request)
     {
-        if (Pago::all()->isEmpty()) {
+        if (Pago::count() === 0) {
             return response()->json([
-                'message' => 'No hay categorías registradas'
+                'message' => 'No hay pagos registrados'
             ], 404);
-        }elseif ($request->id) {
-            $card = Pago::where($request->id);
-            return response()->json($card, 200);
-        } elseif ($request->id_user) {
-            $card = Pago::where('user_id', $request->id_user)->get();
-            return response()->json($card, 200);
-        } elseif (Pago::all()->isNotEmpty()) {
-            $card = Pago::all();
-            return response()->json($card, 200);
         }
+
+        if ($request->id) {
+            $pago = Pago::find($request->id);
+            if (!$pago) {
+                return response()->json(['message' => 'Pago no encontrado'], 404);
+            }
+
+            // desencriptar campos
+            $pago->number = Crypt::decryptString($pago->number);
+            $pago->cvv = Crypt::decryptString($pago->cvv);
+
+            return response()->json($pago, 200);
+        }
+
+        if ($request->id_user) {
+            $pagos = Pago::where('user_id', $request->id_user)->get();
+            if ($pagos->isEmpty()) {
+                return response()->json(['message' => 'No hay pagos para este usuario'], 404);
+            }
+
+            foreach ($pagos as $pago) {
+                $pago->number = Crypt::decryptString($pago->number);
+                $pago->cvv = Crypt::decryptString($pago->cvv);
+            }
+
+            return response()->json($pagos, 200);
+        }
+
+        $pagos = Pago::all();
+        foreach ($pagos as $pago) {
+            $pago->number = Crypt::decryptString($pago->number);
+            $pago->cvv = Crypt::decryptString($pago->cvv);
+        }
+
+        return response()->json($pagos, 200);
     }
+
     public function update(Request $request)
     {
         $card = Pago::find($request->id);
@@ -42,7 +71,7 @@ class PagoController extends Controller
                 $card->expiration_date = Carbon::createFromFormat('d/m/Y', $request->expiration_date)->format('Y-m-d');
             }
             if ($request->has('number')) {
-                $card->number = $request->number;
+                $card->number = Hash::make($request->number);
             }if ($request->has('cvv')){
                 $card->cvv = Hash::make($request->cvv);
             } if ($request->has('deleted')) {
@@ -68,9 +97,9 @@ class PagoController extends Controller
         if ($card) {
             $card->user_id = $request->user_id;
             $card->name = $request->name;
-            $card->number =$request->number;
+            $card->number =Crypt::encryptString($request->number);
             $card->expiration_date = Carbon::createFromFormat('d/m/Y', $request->expiration_date)->format('Y-m-d');
-            $card->cvv = Hash::make($request->cvv);
+            $card->cvv = Crypt::encryptString($request->cvv);
 
 
 

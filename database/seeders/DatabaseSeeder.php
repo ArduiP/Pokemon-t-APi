@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             AddressSeeder::class,
             pagoSeeder::class,
-                        cardsSeeder::class,
+            cardsSeeder::class,
             ProductoSeeder::class,
             TicketSeeder::class,
             TicketLineSeeder::class,
